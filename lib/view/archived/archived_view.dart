@@ -9,7 +9,7 @@ class ArchivedView extends StatelessWidget {
       itemCount: 15,
       shrinkWrap: true,
       itemBuilder: (context, index) {
-        return Text(index.toString());
+        return Text(index.toString() + 'archived');
       },
     );
   }

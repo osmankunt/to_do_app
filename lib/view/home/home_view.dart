@@ -1,28 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:to_do_app/view/archived/archived_view.dart';
+import 'package:to_do_app/view/done/done_view.dart';
 import 'package:to_do_app/view/home/home_view_model.dart';
 import 'package:to_do_app/view/home/home_view_model_states.dart';
 import 'package:to_do_app/view/todos/todos_view.dart';
 
 class HomeView extends StatelessWidget {
-  const HomeView({Key? key}) : super(key: key);
+  HomeView({Key? key}) : super(key: key);
+
+  final List<Widget> views = [
+    const ToDosView(),
+    const DoneView(),
+    const ArchivedView(),
+  ];
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<HomeViewModel, HomeViewModelStates>(
+    return BlocConsumer<HomeViewModel, TodoStates>(
         listener: (context, state) {},
         builder: (context, state) {
           var cubit = HomeViewModel.get(context);
           return Scaffold(
             appBar: AppBar(
-              title: const Text('To Do App'),
+              title: Text(views[cubit.currentIndex].toString()),
             ),
+            body: views[cubit.currentIndex],
             bottomNavigationBar: BottomNavigationBar(
-              currentIndex: cubit.currentIndex.index,
+              currentIndex: cubit.currentIndex,
               onTap: (index) {
-                cubit.setBottomBar(index);
-                const ToDosView();
+                cubit.setBottomIndex(index);
               },
               items: const [
                 BottomNavigationBarItem(
@@ -30,16 +37,15 @@ class HomeView extends StatelessWidget {
                   label: 'Home',
                 ),
                 BottomNavigationBarItem(
-                  icon: Icon(Icons.done),
+                  icon: Icon(Icons.check),
                   label: 'Done',
                 ),
                 BottomNavigationBarItem(
-                  icon: Icon(Icons.notifications_active),
-                  label: 'Active',
+                  icon: Icon(Icons.book),
+                  label: 'Archived',
                 ),
               ],
             ),
-            body: const ArchivedView(),
           );
         });
   }

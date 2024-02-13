@@ -1,19 +1,11 @@
-import 'package:equatable/equatable.dart';
-import 'package:to_do_app/enum/index.dart';
-import 'package:to_do_app/enum/states.dart';
-import 'package:to_do_app/model/todo_model.dart';
+abstract class TodoStates {}
 
-class HomeViewModelStates extends Equatable {
-  const HomeViewModelStates({this.toDo, this.viewStatus = ViewStatus.initial, this.index = Index.all});
+class InitialAppState extends TodoStates {}
 
-  final ToDoModel? toDo;
-  final ViewStatus viewStatus;
-  final Index? index;
+class SetCurrentIndexAppState extends TodoStates {}
 
-  @override
-  List<Object?> get props => [toDo, viewStatus];
+class SetDateState extends TodoStates {}
 
-  HomeViewModelStates copyWith({ToDoModel? toDoModel, ViewStatus? viewStatus, Index? index}) {
-    return HomeViewModelStates(toDo: toDoModel ?? toDo, viewStatus: viewStatus ?? this.viewStatus, index: index ?? this.index);
-  }
-}
+class GetBobState extends TodoStates {}
+
+class AddTotodosListState extends TodoStates {}

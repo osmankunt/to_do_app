@@ -1,32 +1,47 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:to_do_app/enum/index.dart';
+import 'package:to_do_app/enum/states.dart';
 import 'package:to_do_app/view/home/home_view_model_states.dart';
+import 'package:to_do_app/view/todos/todos_view.dart';
 
-class HomeViewModel extends Cubit<HomeViewModelStates> {
-  HomeViewModel() : super(const HomeViewModelStates());
-
-  Index currentIndex = Index.all;
+class HomeViewModel extends Cubit<TodoStates> {
+  HomeViewModel() : super(InitialAppState());
 
   static HomeViewModel get(context) => BlocProvider.of(context);
 
-  setBottomBar(int index) {
-    currentIndex = setIndex(index);
-    emit(HomeViewModelStates(index: currentIndex));
+  int currentIndex = 0;
+
+  void setBottomIndex(int index) {
+    currentIndex = index;
+    emit(SetCurrentIndexAppState());
   }
 
   changeState() {}
 
   Index setIndex(int index) {
     switch (index) {
-      case 1:
+      case 0:
         return Index.all;
-      case 2:
+      case 1:
         return Index.done;
-      case 3:
+      case 2:
         return Index.active;
       default:
         return Index.all;
+    }
+  }
+
+  int getIndex(Index index) {
+    switch (index) {
+      case Index.all:
+        return 0;
+      case Index.done:
+        return 1;
+      case Index.active:
+        return 2;
+      default:
+        return 0;
     }
   }
 }
