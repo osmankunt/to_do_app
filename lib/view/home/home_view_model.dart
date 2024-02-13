@@ -5,16 +5,17 @@ import 'package:to_do_app/enum/states.dart';
 import 'package:to_do_app/view/home/home_view_model_states.dart';
 import 'package:to_do_app/view/todos/todos_view.dart';
 
-class HomeViewModel extends Cubit<TodoStates> {
-  HomeViewModel() : super(InitialAppState());
+class HomeViewModel extends Cubit<HomeViewModelStates> {
+  HomeViewModel() : super(const HomeViewModelStates());
 
   static HomeViewModel get(context) => BlocProvider.of(context);
 
   int currentIndex = 0;
 
   void setBottomIndex(int index) {
+    emit(state.copyWith(viewStatus: ViewStatus.initial));
     currentIndex = index;
-    emit(SetCurrentIndexAppState());
+    emit(state.copyWith(viewStatus: ViewStatus.success));
   }
 
   changeState() {}

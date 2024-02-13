@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:to_do_app/enum/states.dart';
 import 'package:to_do_app/view/archived/archived_view.dart';
 import 'package:to_do_app/view/done/done_view.dart';
 import 'package:to_do_app/view/home/home_view_model.dart';
@@ -17,36 +18,38 @@ class HomeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<HomeViewModel, TodoStates>(
+    return BlocConsumer<HomeViewModel, HomeViewModelStates>(
         listener: (context, state) {},
         builder: (context, state) {
           var cubit = HomeViewModel.get(context);
-          return Scaffold(
-            appBar: AppBar(
-              title: Text(views[cubit.currentIndex].toString()),
-            ),
-            body: views[cubit.currentIndex],
-            bottomNavigationBar: BottomNavigationBar(
-              currentIndex: cubit.currentIndex,
-              onTap: (index) {
-                cubit.setBottomIndex(index);
-              },
-              items: const [
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.home),
-                  label: 'Home',
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.check),
-                  label: 'Done',
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.book),
-                  label: 'Archived',
-                ),
-              ],
-            ),
-          );
+          return state.viewStatus == ViewStatus.success
+              ? Scaffold(
+                  appBar: AppBar(
+                    title: Text(views[context.read<HomeViewModel>().currentIndex].toString()),
+                  ),
+                  body: views[context.read<HomeViewModel>().currentIndex],
+                  bottomNavigationBar: BottomNavigationBar(
+                    currentIndex: context.read<HomeViewModel>().currentIndex,
+                    onTap: (index) {
+                      context.read<HomeViewModel>().setBottomIndex(index);
+                    },
+                    items: const [
+                      BottomNavigationBarItem(
+                        icon: Icon(Icons.home),
+                        label: 'Home',
+                      ),
+                      BottomNavigationBarItem(
+                        icon: Icon(Icons.check),
+                        label: 'Done',
+                      ),
+                      BottomNavigationBarItem(
+                        icon: Icon(Icons.book),
+                        label: 'Archived',
+                      ),
+                    ],
+                  ),
+                )
+              : const CircularProgressIndicator();
         });
   }
 }
