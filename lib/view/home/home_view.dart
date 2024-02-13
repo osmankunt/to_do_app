@@ -16,18 +16,26 @@ class HomeView extends StatelessWidget {
     const ArchivedView(),
   ];
 
+  final List<String> titles = [
+    'To Do',
+    'Done',
+    'Archived',
+  ];
+
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<HomeViewModel, HomeViewModelStates>(
         listener: (context, state) {},
         builder: (context, state) {
-          var cubit = HomeViewModel.get(context);
-          return state.viewStatus == ViewStatus.success
+          return state.viewStatus == ViewStatus.initial || state.viewStatus == ViewStatus.success
               ? Scaffold(
                   appBar: AppBar(
-                    title: Text(views[context.read<HomeViewModel>().currentIndex].toString()),
+                    title: Text(titles[context.read<HomeViewModel>().currentIndex].toString()),
                   ),
-                  body: views[context.read<HomeViewModel>().currentIndex],
+                  body: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: views[context.read<HomeViewModel>().currentIndex],
+                  ),
                   bottomNavigationBar: BottomNavigationBar(
                     currentIndex: context.read<HomeViewModel>().currentIndex,
                     onTap: (index) {
