@@ -12,12 +12,15 @@ class ToDoModel {
   final DateTime date;
   @HiveField(3)
   final bool isDone;
+  @HiveField(4)
+  final bool isArchived;
 
   ToDoModel({
     required this.title,
     required this.toDo,
     required this.date,
     required this.isDone,
+    required this.isArchived,
   });
 
   Map<String, dynamic> toMap() {
@@ -26,6 +29,7 @@ class ToDoModel {
       'toDo': toDo,
       'date': date.millisecondsSinceEpoch,
       'isDone': isDone,
+      'isArchived': isArchived,
     };
   }
 
@@ -35,6 +39,7 @@ class ToDoModel {
       toDo: json['toDo'] ?? '',
       date: DateTime.fromMillisecondsSinceEpoch(json['date']),
       isDone: json['isDone'] ?? false,
+      isArchived: json['isArchived'] ?? false,
     );
   }
 }
