@@ -21,4 +21,6 @@ class HomeViewModel extends Cubit<HomeViewModelStates> {
   changeState({required ViewStatus viewStatus, Index? index}) {
     emit(state.copyWith(viewStatus: viewStatus, index: index ?? Index.none));
   }
+
+  submitToDo(String title, String toDoText, DateTime dateTime) {}
 }
