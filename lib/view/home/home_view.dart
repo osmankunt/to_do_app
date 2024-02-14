@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:to_do_app/constant/constants.dart';
 import 'package:to_do_app/enum/states.dart';
+import 'package:to_do_app/model/todo_model.dart';
 import 'package:to_do_app/view/archived/archived_view.dart';
 import 'package:to_do_app/view/done/done_view.dart';
 import 'package:to_do_app/view/home/home_view_model.dart';
@@ -134,9 +135,13 @@ class HomeView extends StatelessWidget {
                                         ElevatedButton(
                                           onPressed: () {
                                             if (_formKey.currentState!.validate()) {
-                                              context
-                                                  .read<HomeViewModel>()
-                                                  .submitToDo(_titleController.text, _todoController.text, DateTime.now());
+                                              context.read<HomeViewModel>().submitToDo(state.toDo ??
+                                                  ToDoModel(
+                                                      title: "Title",
+                                                      toDo: "toDo",
+                                                      date: DateTime.now(),
+                                                      isDone: false,
+                                                      isArchived: false));
                                             }
                                           },
                                           child: Text(Constants.submitButtonText),
