@@ -10,7 +10,7 @@ class ToDoListTile extends StatelessWidget {
       title: Row(
         children: [
           const Text('Subject'),
-          Spacer(),
+          const Spacer(),
           IconButton(
             onPressed: () {},
             icon: const Icon(Icons.done),
