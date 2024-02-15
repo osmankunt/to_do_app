@@ -3,17 +3,17 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:to_do_app/model/todo_model.dart';
 import 'package:to_do_app/view/home/home_view.dart';
 import 'package:to_do_app/view/home/home_view_model.dart';
-import 'package:to_do_app/view/home/home_view_model_states.dart';
 
 const String toDoBox = "todos";
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  var path = Directory.current.path;
-  Hive.init(path);
+  var directory = await getApplicationDocumentsDirectory();
+  Hive.init(directory.path);
   Hive.registerAdapter(ToDoModelAdapter());
   await Hive.initFlutter();
   await Hive.openBox<ToDoModel>(toDoBox);

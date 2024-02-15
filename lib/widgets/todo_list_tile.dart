@@ -1,15 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:to_do_app/model/todo_model.dart';
+import 'package:to_do_app/view/home/home_view_model.dart';
 
 class ToDoListTile extends StatelessWidget {
-  const ToDoListTile({Key? key}) : super(key: key);
+  const ToDoListTile({
+    required this.todoModel,
+    Key? key,
+  }) : super(key: key);
+  final ToDoModel todoModel;
 
   @override
   Widget build(BuildContext context) {
+    var cubit = HomeViewModel.get(context);
     return ListTile(
       title: Row(
         children: [
-          const Text('Subject'),
+          Text(todoModel.title),
           const Spacer(),
           IconButton(
             onPressed: () {},

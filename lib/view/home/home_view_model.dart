@@ -1,5 +1,4 @@
 import 'package:bloc/bloc.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -9,10 +8,10 @@ import 'package:to_do_app/model/todo_model.dart';
 import 'package:to_do_app/utils/index.dart';
 import 'package:to_do_app/view/home/home_view_model_states.dart';
 
-import '../../constant/constants.dart';
-
 class HomeViewModel extends Cubit<HomeViewModelStates> {
   HomeViewModel() : super(const HomeViewModelStates());
+
+  static HomeViewModel get(context) => BlocProvider.of(context);
 
   int currentIndex = 0;
   static Index indexEnum = Index.none;
@@ -44,21 +43,24 @@ class HomeViewModel extends Cubit<HomeViewModelStates> {
     });
   }
 
+  List<ToDoModel>? todosList = [];
+  List<int>? keys = [];
+
   getHiveBox() async {
     emit(state.copyWith(viewStatus: ViewStatus.loading));
-    var box = await Hive.openBox<HomeViewModel>(Constants.todosText);
+    var box = await Hive.openBox<ToDoModel>('todos');
     var keys = [];
     keys = box.keys.cast<int>().toList();
     var toDoList = [];
     for (var key in keys) {
-      toDoList.add(box.get(key)!);
+      toDoList.add(box.get(key));
     }
     box.close();
     emit(state.copyWith(viewStatus: ViewStatus.success));
   }
 
   submitToDo(ToDoModel toDoModel) async {
-    await Hive.openBox<ToDoModel>(Constants.todosText).then((todo) => todo.add(toDoModel)).then(
+    await Hive.openBox<ToDoModel>('todos').then((todo) => todo.add(toDoModel)).then(
           (value) => getHiveBox(),
         );
   }
