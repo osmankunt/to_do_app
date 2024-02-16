@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:to_do_app/main.dart';
 import 'package:to_do_app/model/todo_model.dart';
 import 'package:to_do_app/view/home/home_view_model.dart';
 
 class ToDoListTile extends StatelessWidget {
   const ToDoListTile({
-    required this.todoModel,
+    required this.toDoModel,
     Key? key,
   }) : super(key: key);
-  final ToDoModel todoModel;
+  final ToDoModel toDoModel;
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +17,7 @@ class ToDoListTile extends StatelessWidget {
     return ListTile(
       title: Row(
         children: [
-          Text(todoModel.title),
+          Text(toDoModel.title),
           const Spacer(),
           IconButton(
             onPressed: () {},
@@ -33,9 +34,9 @@ class ToDoListTile extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Hi'),
+            Text(toDoModel.toDo),
             Text(
-              DateFormat.yMMMEd().format(DateTime.now()),
+              DateFormat.yMMMEd().format(toDoModel.date),
             ),
           ],
         ),

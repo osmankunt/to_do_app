@@ -43,19 +43,22 @@ class HomeViewModel extends Cubit<HomeViewModelStates> {
     });
   }
 
-  List<ToDoModel>? todosList = [];
+  List<ToDoModel>? toDoList = [];
   List<int>? keys = [];
 
   getHiveBox() async {
     emit(state.copyWith(viewStatus: ViewStatus.loading));
     var box = await Hive.openBox<ToDoModel>('todos');
+
+    // Empty the HiveBox
+    //box.deleteFromDisk();
     var keys = [];
     keys = box.keys.cast<int>().toList();
-    var toDoList = [];
+    toDoList = [];
     for (var key in keys) {
-      toDoList.add(box.get(key));
+      toDoList!.add(box.get(key)!);
     }
-    box.close();
+    //box.close();
     emit(state.copyWith(viewStatus: ViewStatus.success));
   }
 

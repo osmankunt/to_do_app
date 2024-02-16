@@ -15,7 +15,7 @@ class ToDosView extends StatelessWidget {
     return BlocBuilder<HomeViewModel, HomeViewModelStates>(builder: (context, state) {
       var cubit = HomeViewModel.get(context);
       List<ToDoModel>? todosList = [];
-      for (var item in cubit.todosList!) {
+      for (var item in cubit.toDoList!) {
         if (!item.isArchived && !item.isDone) {
           todosList.add(item);
         }
@@ -26,7 +26,7 @@ class ToDosView extends StatelessWidget {
             )
           : ListView.builder(
               itemBuilder: (context, index) {
-                return ToDoListTile(todoModel: todosList[index]);
+                return ToDoListTile(toDoModel: todosList[index]);
               },
               itemCount: todosList.length,
               shrinkWrap: true,

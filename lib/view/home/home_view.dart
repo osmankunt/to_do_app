@@ -137,9 +137,9 @@ class HomeView extends StatelessWidget {
                                             if (_formKey.currentState!.validate()) {
                                               context.read<HomeViewModel>().submitToDo(state.toDo ??
                                                   ToDoModel(
-                                                      title: "Title",
-                                                      toDo: "toDo",
-                                                      date: DateTime.now(),
+                                                      title: _titleController.text,
+                                                      toDo: _todoController.text,
+                                                      date: context.read<HomeViewModel>().initialDate,
                                                       isDone: false,
                                                       isArchived: false));
                                             }
