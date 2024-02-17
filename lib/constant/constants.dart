@@ -9,4 +9,5 @@ class Constants {
   static String doneText = "Done";
   static String archivedText = "Archives";
   static String emptyToDoList = "All Todos is empty";
+  static String toDoBox = "todos";
 }

@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:to_do_app/constant/constants.dart';
 import 'package:to_do_app/enum/index.dart';
 import 'package:to_do_app/enum/states.dart';
 import 'package:to_do_app/model/todo_model.dart';
@@ -48,7 +49,7 @@ class HomeViewModel extends Cubit<HomeViewModelStates> {
 
   getHiveBox() async {
     emit(state.copyWith(viewStatus: ViewStatus.loading));
-    var box = await Hive.openBox<ToDoModel>('todos');
+    var box = await Hive.openBox<ToDoModel>(Constants.toDoBox);
 
     // Empty the HiveBox
     //box.deleteFromDisk();
@@ -63,8 +64,21 @@ class HomeViewModel extends Cubit<HomeViewModelStates> {
   }
 
   submitToDo(ToDoModel toDoModel) async {
-    await Hive.openBox<ToDoModel>('todos').then((todo) => todo.add(toDoModel)).then(
+    await Hive.openBox<ToDoModel>(Constants.toDoBox).then((todo) => todo.add(toDoModel)).then(
           (value) => getHiveBox(),
         );
+  }
+
+  deleteToDo(String title) async {
+    emit(state.copyWith(viewStatus: ViewStatus.loading));
+    final box = Hive.box<ToDoModel>(Constants.toDoBox);
+
+    final Map<dynamic, ToDoModel> toDoMap = box.toMap();
+    dynamic desiredKey;
+    toDoMap.forEach((key, value) {
+      if (value.title == title) desiredKey = key;
+    });
+    box.delete(desiredKey);
+    emit(state.copyWith(viewStatus: ViewStatus.success));
   }
 }
