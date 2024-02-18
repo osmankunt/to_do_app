@@ -69,16 +69,30 @@ class HomeViewModel extends Cubit<HomeViewModelStates> {
         );
   }
 
-  deleteToDo(String title) async {
+  deleteToDo(ToDoModel toDoModel) async {
     emit(state.copyWith(viewStatus: ViewStatus.loading));
     final box = Hive.box<ToDoModel>(Constants.toDoBox);
 
     final Map<dynamic, ToDoModel> toDoMap = box.toMap();
     dynamic desiredKey;
     toDoMap.forEach((key, value) {
-      if (value.title == title) desiredKey = key;
+      if (value == toDoModel) desiredKey = key;
     });
     box.delete(desiredKey);
+    getHiveBox();
+    emit(state.copyWith(viewStatus: ViewStatus.success));
+  }
+
+  updateToDo(ToDoModel toDoModel) {
+    emit(state.copyWith(viewStatus: ViewStatus.loading));
+    final box = Hive.box<ToDoModel>(Constants.toDoBox);
+
+    final Map<dynamic, ToDoModel> toDoMap = box.toMap();
+    dynamic desiredKey;
+    toDoMap.forEach((key, value) {
+      if (value == toDoModel) desiredKey = key;
+    });
+    box.put(desiredKey, toDoModel);
     getHiveBox();
     emit(state.copyWith(viewStatus: ViewStatus.success));
   }

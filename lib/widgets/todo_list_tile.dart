@@ -26,12 +26,22 @@ class ToDoListTile extends StatelessWidget {
                 const Spacer(),
                 IconButton(
                   onPressed: () {
-                    cubit.deleteToDo(toDoModel.title);
+                    cubit.deleteToDo(toDoModel);
+                  },
+                  icon: const Icon(Icons.delete),
+                ),
+                IconButton(
+                  onPressed: () {
+                    cubit.updateToDo(ToDoModel(
+                        title: toDoModel.title, toDo: toDoModel.toDo, date: toDoModel.date, isDone: true, isArchived: false));
                   },
                   icon: const Icon(Icons.done),
                 ),
                 IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    cubit.updateToDo(ToDoModel(
+                        title: toDoModel.title, toDo: toDoModel.toDo, date: toDoModel.date, isDone: false, isArchived: true));
+                  },
                   icon: const Icon(Icons.archive),
                 ),
               ],
