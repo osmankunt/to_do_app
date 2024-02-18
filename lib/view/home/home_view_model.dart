@@ -90,7 +90,9 @@ class HomeViewModel extends Cubit<HomeViewModelStates> {
     final Map<dynamic, ToDoModel> toDoMap = box.toMap();
     dynamic desiredKey;
     toDoMap.forEach((key, value) {
-      if (value == toDoModel) desiredKey = key;
+      if (value.title == toDoModel.title) {
+        desiredKey = key;
+      }
     });
     box.put(desiredKey, toDoModel);
     getHiveBox();

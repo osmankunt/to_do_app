@@ -9,5 +9,7 @@ class Constants {
   static String doneText = "Done";
   static String archivedText = "Archives";
   static String emptyToDoList = "All Todos is empty";
+  static String emptyDoneList = "There is no done ToDo";
+  static String emptyArchiveList = "There is no archive ToDo";
   static String toDoBox = "todos";
 }
