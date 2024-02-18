@@ -79,6 +79,7 @@ class HomeViewModel extends Cubit<HomeViewModelStates> {
       if (value.title == title) desiredKey = key;
     });
     box.delete(desiredKey);
+    getHiveBox();
     emit(state.copyWith(viewStatus: ViewStatus.success));
   }
 }

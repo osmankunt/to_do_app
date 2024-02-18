@@ -18,7 +18,7 @@ class ToDoListTile extends StatelessWidget {
     var cubit = HomeViewModel.get(context);
     return ListTile(
       title: BlocSelector<HomeViewModel, HomeViewModelStates, String>(
-          selector: (state) => state.toDo!.title ?? "",
+          selector: (state) => state.toDo == null ? "" : toDoModel.title,
           builder: (context, state) {
             return Row(
               children: [
