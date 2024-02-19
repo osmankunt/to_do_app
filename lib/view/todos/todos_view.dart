@@ -26,7 +26,10 @@ class ToDosView extends StatelessWidget {
             )
           : ListView.builder(
               itemBuilder: (context, index) {
-                return ToDoListTile(toDoModel: todosList[index]);
+                return ToDoListTile(
+                  toDoModel: todosList[index],
+                  hasUpdateButton: true,
+                );
               },
               itemCount: todosList.length,
               shrinkWrap: true,

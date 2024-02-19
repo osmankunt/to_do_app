@@ -7,7 +7,7 @@ class ToDoModel {
   @HiveField(0)
   final String title;
   @HiveField(1)
-  final String toDo;
+  String toDo;
   @HiveField(2)
   final DateTime date;
   @HiveField(3)

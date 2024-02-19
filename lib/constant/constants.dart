@@ -11,5 +11,6 @@ class Constants {
   static String emptyToDoList = "All Todos is empty";
   static String emptyDoneList = "There is no done ToDo";
   static String emptyArchiveList = "There is no archive ToDo";
+  static String cantBeEmpty = "Cant be empty";
   static String toDoBox = "todos";
 }

@@ -102,7 +102,7 @@ class HomeView extends StatelessWidget {
                   ),
                   validator: (value) {
                     if (value!.isEmpty) {
-                      return 'Cant be empty';
+                      return Constants.cantBeEmpty;
                     } else {
                       return null;
                     }
@@ -124,7 +124,7 @@ class HomeView extends StatelessWidget {
                   ),
                   validator: (value) {
                     if (value!.isEmpty) {
-                      return 'Cant be empty';
+                      return Constants.cantBeEmpty;
                     } else {
                       return null;
                     }
@@ -174,6 +174,7 @@ class HomeView extends StatelessWidget {
                                   date: context.read<HomeViewModel>().initialDate,
                                   isDone: false,
                                   isArchived: false));
+                          Navigator.of(context).pop();
                         }
                       },
                       child: Text(Constants.submitButtonText),

@@ -83,7 +83,7 @@ class HomeViewModel extends Cubit<HomeViewModelStates> {
     emit(state.copyWith(viewStatus: ViewStatus.success));
   }
 
-  updateToDo(ToDoModel toDoModel) {
+  updateToDo(ToDoModel toDoModel, String? toDo) {
     emit(state.copyWith(viewStatus: ViewStatus.loading));
     final box = Hive.box<ToDoModel>(Constants.toDoBox);
 
