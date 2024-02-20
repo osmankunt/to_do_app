@@ -5,6 +5,7 @@ class Constants {
   static String todosText = "To Dos";
   static String titleText = "Title";
   static String newTodoText = "New To Do";
+  static String updateTodoText = "Update To Do";
   static String homeText = "Home";
   static String doneText = "Done";
   static String archivedText = "Archives";
