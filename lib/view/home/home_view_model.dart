@@ -1,4 +1,3 @@
-import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -18,14 +17,16 @@ class HomeViewModel extends Cubit<HomeViewModelStates> {
   static Index indexEnum = Index.none;
   DateTime initialDate = DateTime.now();
 
+  // set bottom navigation bar index
   void setBottomIndex(int index) {
-    emit(state.copyWith(viewStatus: ViewStatus.loading));
+    changeState(viewStatus: ViewStatus.loading);
     indexEnum = IndexUtils.setIndex(index);
     currentIndex = index;
     changeState(viewStatus: ViewStatus.success, index: indexEnum);
   }
 
-  changeState({required ViewStatus viewStatus, Index? index}) {
+  // change state
+  changeState({ViewStatus? viewStatus, Index? index, DateTime? pickedDate}) {
     emit(state.copyWith(viewStatus: viewStatus, index: index ?? Index.none));
   }
 
@@ -40,15 +41,16 @@ class HomeViewModel extends Cubit<HomeViewModelStates> {
       if (value != null) {
         initialDate = value;
       }
-      emit(state.copyWith(viewStatus: ViewStatus.add, pickedDate: initialDate));
+      changeState(viewStatus: ViewStatus.add, pickedDate: initialDate);
     });
   }
 
   List<ToDoModel>? toDoList = [];
   List<int>? keys = [];
 
+  // get hive box
   getHiveBox() async {
-    emit(state.copyWith(viewStatus: ViewStatus.loading));
+    changeState(viewStatus: ViewStatus.loading);
     var box = await Hive.openBox<ToDoModel>(Constants.toDoBox);
 
     // Empty the HiveBox
@@ -59,18 +61,19 @@ class HomeViewModel extends Cubit<HomeViewModelStates> {
     for (var key in keys) {
       toDoList!.add(box.get(key)!);
     }
-    //box.close();
-    emit(state.copyWith(viewStatus: ViewStatus.success));
+    changeState(viewStatus: ViewStatus.success);
   }
 
+  // add new to do to hive box
   submitToDo(ToDoModel toDoModel) async {
     await Hive.openBox<ToDoModel>(Constants.toDoBox).then((todo) => todo.add(toDoModel)).then(
           (value) => getHiveBox(),
         );
   }
 
+  // delete an item from hive box
   deleteToDo(ToDoModel toDoModel) async {
-    emit(state.copyWith(viewStatus: ViewStatus.loading));
+    changeState(viewStatus: ViewStatus.loading);
     final box = Hive.box<ToDoModel>(Constants.toDoBox);
 
     final Map<dynamic, ToDoModel> toDoMap = box.toMap();
@@ -80,11 +83,12 @@ class HomeViewModel extends Cubit<HomeViewModelStates> {
     });
     box.delete(desiredKey);
     getHiveBox();
-    emit(state.copyWith(viewStatus: ViewStatus.success));
+    changeState(viewStatus: ViewStatus.success);
   }
 
+  // update item on hive box
   updateToDo(ToDoModel toDoModel) {
-    emit(state.copyWith(viewStatus: ViewStatus.loading));
+    changeState(viewStatus: ViewStatus.loading);
     final box = Hive.box<ToDoModel>(Constants.toDoBox);
 
     final Map<dynamic, ToDoModel> toDoMap = box.toMap();
@@ -96,6 +100,6 @@ class HomeViewModel extends Cubit<HomeViewModelStates> {
     });
     box.put(desiredKey, toDoModel);
     getHiveBox();
-    emit(state.copyWith(viewStatus: ViewStatus.success));
+    changeState(viewStatus: ViewStatus.success);
   }
 }
