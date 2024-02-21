@@ -8,18 +8,18 @@ import '../view/home/home_view_model.dart';
 import '../view/home/home_view_model_states.dart';
 
 class UpdateAlertDialog extends StatelessWidget {
-  UpdateAlertDialog({ToDoModel? toDoModel, Key? key}) : super(key: key);
+  UpdateAlertDialog({required this.toDoModel, Key? key}) : super(key: key);
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  final TextEditingController _titleController = TextEditingController();
-  final TextEditingController _todoController = TextEditingController();
-  ToDoModel? toDoModel;
+  final ToDoModel? toDoModel;
 
   @override
   Widget build(BuildContext context) {
+    final TextEditingController titleController = TextEditingController(text: toDoModel?.title ?? "");
+    final TextEditingController todoController = TextEditingController(text: toDoModel?.toDo ?? "");
     var cubit = HomeViewModel.get(context);
     return AlertDialog(
-      title: Text(Constants.newTodoText),
+      title: Text(Constants.updateTodoText),
       content: BlocBuilder<HomeViewModel, HomeViewModelStates>(builder: (context, state) {
         return Form(
           key: _formKey,
@@ -28,8 +28,8 @@ class UpdateAlertDialog extends StatelessWidget {
             child: Column(
               children: [
                 TextFormField(
-                  initialValue: toDoModel!.title.isEmpty ? "" : toDoModel!.title,
-                  controller: _titleController,
+                  controller: titleController,
+                  enabled: titleController.text.isEmpty ? true : false,
                   decoration: InputDecoration(
                     hintText: Constants.titleText,
                     labelText: Constants.titleText,
@@ -49,8 +49,7 @@ class UpdateAlertDialog extends StatelessWidget {
                   height: 10,
                 ),
                 TextFormField(
-                  initialValue: toDoModel!.toDo.isEmpty ? "" : toDoModel!.toDo,
-                  controller: _todoController,
+                  controller: todoController,
                   minLines: 1,
                   maxLines: 3,
                   decoration: InputDecoration(
@@ -106,13 +105,15 @@ class UpdateAlertDialog extends StatelessWidget {
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
                           cubit.updateToDo(
-                              ToDoModel(
-                                  title: toDoModel!.title,
-                                  toDo: toDoModel!.toDo,
-                                  date: toDoModel!.date,
-                                  isDone: true,
-                                  isArchived: false),
-                              "");
+                            ToDoModel(
+                                title: toDoModel!.title.isEmpty ? "" : toDoModel!.title,
+                                toDo: toDoModel!.toDo.isEmpty ? "" : todoController.text,
+                                date: toDoModel!.date.toString().isEmpty
+                                    ? DateTime.now()
+                                    : context.read<HomeViewModel>().initialDate,
+                                isDone: toDoModel!.isDone ? false : toDoModel!.isDone,
+                                isArchived: toDoModel!.isArchived ? false : toDoModel!.isArchived),
+                          );
                           Navigator.of(context).pop();
                         }
                       },

@@ -4,8 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:to_do_app/model/todo_model.dart';
 import 'package:to_do_app/view/home/home_view_model.dart';
 import 'package:to_do_app/view/home/home_view_model_states.dart';
-
-import '../constant/constants.dart';
+import 'package:to_do_app/widgets/update_alert_dialog.dart';
 
 class ToDoListTile extends StatelessWidget {
   ToDoListTile({
@@ -33,28 +32,24 @@ class ToDoListTile extends StatelessWidget {
                   onPressed: () {
                     cubit.deleteToDo(toDoModel);
                   },
-                  icon: const Icon(Icons.delete),
+                  icon: const Icon(
+                    Icons.delete,
+                    color: Colors.red,
+                  ),
                 ),
                 IconButton(
                   onPressed: () {
                     cubit.updateToDo(
-                        ToDoModel(
-                            title: toDoModel.title, toDo: toDoModel.toDo, date: toDoModel.date, isDone: true, isArchived: false),
-                        toDo ?? "");
+                      ToDoModel(
+                          title: toDoModel.title, toDo: toDoModel.toDo, date: toDoModel.date, isDone: true, isArchived: false),
+                    );
                   },
                   icon: const Icon(Icons.done),
                 ),
                 hasUpdateButton
                     ? IconButton(
                         onPressed: () {
-                          cubit.updateToDo(
-                              ToDoModel(
-                                  title: toDoModel.title,
-                                  toDo: toDoModel.toDo,
-                                  date: toDoModel.date,
-                                  isDone: true,
-                                  isArchived: false),
-                              toDo ?? "");
+                          showDialog(context: context, builder: (context) => UpdateAlertDialog(toDoModel: toDoModel));
                         },
                         icon: const Icon(Icons.update),
                       )
@@ -62,11 +57,14 @@ class ToDoListTile extends StatelessWidget {
                 IconButton(
                   onPressed: () {
                     cubit.updateToDo(
-                        ToDoModel(
-                            title: toDoModel.title, toDo: toDoModel.toDo, date: toDoModel.date, isDone: false, isArchived: true),
-                        toDo ?? "");
+                      ToDoModel(
+                          title: toDoModel.title, toDo: toDoModel.toDo, date: toDoModel.date, isDone: false, isArchived: true),
+                    );
                   },
-                  icon: const Icon(Icons.archive),
+                  icon: const Icon(
+                    Icons.archive,
+                    color: Colors.green,
+                  ),
                 ),
               ],
             );
