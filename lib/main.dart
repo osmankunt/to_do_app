@@ -6,8 +6,9 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:to_do_app/constant/constants.dart';
 import 'package:to_do_app/model/todo_model.dart';
-import 'package:to_do_app/view/home/home_view.dart';
 import 'package:to_do_app/view/home/home_view_model.dart';
+import 'package:to_do_app/view/main/main_view.dart';
+import 'package:to_do_app/view/main/main_view_model.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -27,13 +28,14 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (context) => HomeViewModel()..getHiveBox()),
+        BlocProvider<MainViewModel>(create: (context) => MainViewModel()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           primarySwatch: Colors.teal,
         ),
-        home: HomeView(),
+        home: const MainView(),
       ),
     );
   }

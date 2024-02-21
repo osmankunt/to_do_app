@@ -38,7 +38,7 @@ class HomeView extends StatelessWidget {
                     backgroundColor: Colors.grey,
                     title: Center(
                       child: Text(
-                        titles[cubit.currentIndex].toString(),
+                        titles[context.read<HomeViewModel>().currentIndex].toString(),
                         style: TextStyle(
                           foreground: Paint()
                             ..style = PaintingStyle.stroke
