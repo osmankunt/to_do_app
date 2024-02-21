@@ -7,8 +7,8 @@ import '../constant/constants.dart';
 import '../view/home/home_view_model.dart';
 import '../view/home/home_view_model_states.dart';
 
-class UpdateAlertDialog extends StatelessWidget {
-  UpdateAlertDialog({required this.toDoModel, Key? key}) : super(key: key);
+class ToDoAlertDialog extends StatelessWidget {
+  ToDoAlertDialog({this.toDoModel, Key? key}) : super(key: key);
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final ToDoModel? toDoModel;
@@ -19,7 +19,7 @@ class UpdateAlertDialog extends StatelessWidget {
     final TextEditingController todoController = TextEditingController(text: toDoModel?.toDo ?? "");
     var cubit = HomeViewModel.get(context);
     return AlertDialog(
-      title: Text(Constants.updateTodoText),
+      title: toDoModel == null ? Text(Constants.newTodoText) : Text(Constants.updateTodoText),
       content: BlocBuilder<HomeViewModel, HomeViewModelStates>(builder: (context, state) {
         return Form(
           key: _formKey,
@@ -29,7 +29,7 @@ class UpdateAlertDialog extends StatelessWidget {
               children: [
                 TextFormField(
                   controller: titleController,
-                  enabled: titleController.text.isEmpty ? true : false,
+                  enabled: toDoModel == null ? true : false,
                   decoration: InputDecoration(
                     hintText: Constants.titleText,
                     labelText: Constants.titleText,
@@ -104,20 +104,27 @@ class UpdateAlertDialog extends StatelessWidget {
                     ElevatedButton(
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
-                          cubit.updateToDo(
-                            ToDoModel(
-                                title: toDoModel!.title.isEmpty ? "" : toDoModel!.title,
-                                toDo: toDoModel!.toDo.isEmpty ? "" : todoController.text,
-                                date: toDoModel!.date.toString().isEmpty
-                                    ? DateTime.now()
-                                    : context.read<HomeViewModel>().initialDate,
-                                isDone: toDoModel!.isDone ? false : toDoModel!.isDone,
-                                isArchived: toDoModel!.isArchived ? false : toDoModel!.isArchived),
-                          );
+                          toDoModel == null
+                              ? cubit.submitToDo(ToDoModel(
+                                  title: titleController.text,
+                                  toDo: todoController.text,
+                                  date: context.read<HomeViewModel>().initialDate,
+                                  isDone: false,
+                                  isArchived: false))
+                              : cubit.updateToDo(
+                                  ToDoModel(
+                                      title: toDoModel!.title.isEmpty ? "" : toDoModel!.title,
+                                      toDo: toDoModel!.toDo.isEmpty ? "" : todoController.text,
+                                      date: toDoModel!.date.toString().isEmpty
+                                          ? DateTime.now()
+                                          : context.read<HomeViewModel>().initialDate,
+                                      isDone: toDoModel!.isDone ? false : toDoModel!.isDone,
+                                      isArchived: toDoModel!.isArchived ? false : toDoModel!.isArchived),
+                                );
                           Navigator.of(context).pop();
                         }
                       },
-                      child: Text(Constants.submitButtonText),
+                      child: toDoModel == null ? Text(Constants.submitButtonText) : Text(Constants.updateButtonText),
                     ),
                   ],
                 ),

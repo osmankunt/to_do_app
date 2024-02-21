@@ -1,6 +1,7 @@
 class Constants {
   static String submitButtonText = "Submit";
   static String cancelButtonText = "Cancel";
+  static String updateButtonText = "Update";
   static String todoText = "To Do";
   static String todosText = "To Dos";
   static String titleText = "Title";
