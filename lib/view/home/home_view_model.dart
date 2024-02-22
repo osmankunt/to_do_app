@@ -28,8 +28,8 @@ class HomeViewModel extends Cubit<HomeViewModelStates> {
   }
 
   // change state
-  changeState({ViewStatus? viewStatus, Index? index, DateTime? pickedDate}) {
-    emit(state.copyWith(viewStatus: viewStatus, index: index ?? Index.none));
+  changeState({List<ToDoModel>? toDoList, ViewStatus? viewStatus, Index? index, DateTime? pickedDate}) {
+    emit(state.copyWith(toDosList: toDoList, viewStatus: viewStatus, index: index ?? Index.none, pickedDate: pickedDate));
   }
 
   datePicker(BuildContext context) {
@@ -63,7 +63,7 @@ class HomeViewModel extends Cubit<HomeViewModelStates> {
     for (var key in keys) {
       toDoList!.add(box.get(key)!);
     }
-    changeState(viewStatus: ViewStatus.success);
+    changeState(toDoList: toDoList, viewStatus: ViewStatus.success);
   }
 
   // add new to do to hive box

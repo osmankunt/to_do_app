@@ -11,7 +11,7 @@ class MainViewModelStates extends Equatable {
   @override
   List<Object?> get props => [viewStatus, index];
 
-  MainViewModelStates copyWith({ViewStatus? viewStatus, int? index, DateTime? pickedDate}) {
+  MainViewModelStates copyWith({ViewStatus? viewStatus, int? index}) {
     return MainViewModelStates(viewStatus: viewStatus ?? this.viewStatus, index: index ?? this.index);
   }
 }
