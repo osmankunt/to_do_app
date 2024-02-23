@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:to_do_app/model/todo_model.dart';
 import 'package:to_do_app/view/home/home_view_model.dart';
-
 import '../../constant/constants.dart';
 import '../../widgets/todo_list_tile.dart';
-import '../home/home_view_model_states.dart';
+import '../../widgets/todo_scaffold.dart';
+import '../home/home_states.dart';
 
 class DoneView extends StatelessWidget {
   const DoneView({Key? key}) : super(key: key);
@@ -24,12 +24,18 @@ class DoneView extends StatelessWidget {
           ? Center(
               child: Text(Constants.emptyDoneList),
             )
-          : ListView.builder(
-              itemBuilder: (context, index) {
-                return ToDoListTile(toDoModel: todosList[index]);
-              },
-              itemCount: todosList.length,
-              shrinkWrap: true,
+          : ToDoScaffold(
+              pageName: Constants.donePage,
+              child: ListView.builder(
+                itemBuilder: (context, index) {
+                  return ToDoListTile(
+                    toDoModel: todosList[index],
+                    hasUpdateButton: true,
+                  );
+                },
+                itemCount: todosList.length,
+                shrinkWrap: true,
+              ),
             );
     });
   }

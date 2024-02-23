@@ -5,7 +5,7 @@ import 'package:to_do_app/model/todo_model.dart';
 
 import '../constant/constants.dart';
 import '../view/home/home_view_model.dart';
-import '../view/home/home_view_model_states.dart';
+import '../view/home/home_states.dart';
 
 class ToDoAlertDialog extends StatelessWidget {
   ToDoAlertDialog({this.toDoModel, Key? key}) : super(key: key);

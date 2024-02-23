@@ -15,4 +15,7 @@ class Constants {
   static String emptyArchiveList = "There is no archive ToDo";
   static String cantBeEmpty = "Cant be empty";
   static String toDoBox = "todos";
+  static String toDoPage = "To Do Page";
+  static String donePage = "Done Page";
+  static String archivedPage = "Archived Page";
 }

@@ -4,8 +4,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../constant/constants.dart';
 import '../../model/todo_model.dart';
 import '../../widgets/todo_list_tile.dart';
+import '../../widgets/todo_scaffold.dart';
 import '../home/home_view_model.dart';
-import '../home/home_view_model_states.dart';
+import '../home/home_states.dart';
 
 class ArchivedView extends StatelessWidget {
   const ArchivedView({Key? key}) : super(key: key);
@@ -24,12 +25,18 @@ class ArchivedView extends StatelessWidget {
           ? Center(
               child: Text(Constants.emptyArchiveList),
             )
-          : ListView.builder(
-              itemBuilder: (context, index) {
-                return ToDoListTile(toDoModel: todosList[index]);
-              },
-              itemCount: todosList.length,
-              shrinkWrap: true,
+          : ToDoScaffold(
+              pageName: Constants.archivedPage,
+              child: ListView.builder(
+                itemBuilder: (context, index) {
+                  return ToDoListTile(
+                    toDoModel: todosList[index],
+                    hasUpdateButton: true,
+                  );
+                },
+                itemCount: todosList.length,
+                shrinkWrap: true,
+              ),
             );
     });
   }
