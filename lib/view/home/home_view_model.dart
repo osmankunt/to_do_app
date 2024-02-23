@@ -18,6 +18,8 @@ class HomeViewModel extends Cubit<HomeViewModelStates> {
   int currentIndex = 0;
   static Index indexEnum = Index.none;
   DateTime initialDate = DateTime.now();
+  List<ToDoModel>? toDoList = [];
+  List<int>? keys = [];
 
   // set bottom navigation bar index
   void setBottomIndex(int index) {
@@ -47,9 +49,6 @@ class HomeViewModel extends Cubit<HomeViewModelStates> {
       changeState(viewStatus: ViewStatus.success, pickedDate: initialDate);
     });
   }
-
-  List<ToDoModel>? toDoList = [];
-  List<int>? keys = [];
 
   // get hive box
   getHiveBox() async {

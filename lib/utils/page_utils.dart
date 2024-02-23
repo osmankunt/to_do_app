@@ -19,7 +19,7 @@ class PageUtils {
     }
   }
 
-  static Widget getPageView(String page) {
+  static Widget getPageView(String page, BuildContext context) {
     switch (page) {
       case "To Do Page":
         return const ToDosView();

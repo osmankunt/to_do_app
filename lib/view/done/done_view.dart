@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:to_do_app/model/todo_model.dart';
-import 'package:to_do_app/view/home/home_view_model.dart';
 import '../../constant/constants.dart';
 import '../../widgets/todo_list_tile.dart';
 import '../../widgets/todo_scaffold.dart';
-import '../home/home_states.dart';
+import 'done_states.dart';
+import 'done_view_model.dart';
 
 class DoneView extends StatelessWidget {
   const DoneView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<HomeViewModel, HomeViewModelStates>(builder: (context, state) {
-      var cubit = HomeViewModel.get(context);
+    return BlocBuilder<DoneViewModel, DoneStates>(builder: (context, state) {
+      var cubit = DoneViewModel.get(context);
       List<ToDoModel>? todosList = [];
       for (var item in cubit.toDoList!) {
         if (item.isDone) {
