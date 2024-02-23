@@ -76,6 +76,7 @@ class ToDoAlertDialog extends StatelessWidget {
                       return ElevatedButton.icon(
                         onPressed: () {
                           context.read<HomeViewModel>().datePicker(context);
+                          FocusManager.instance.primaryFocus?.unfocus();
                         },
                         label: context.read<HomeViewModel>().initialDate != DateTime.now()
                             ? Text(

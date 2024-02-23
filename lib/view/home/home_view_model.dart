@@ -33,6 +33,7 @@ class HomeViewModel extends Cubit<HomeViewModelStates> {
   }
 
   datePicker(BuildContext context) {
+    changeState(viewStatus: ViewStatus.loading);
     showDatePicker(
       context: context,
       currentDate: initialDate,
@@ -43,7 +44,7 @@ class HomeViewModel extends Cubit<HomeViewModelStates> {
       if (value != null) {
         initialDate = value;
       }
-      changeState(viewStatus: ViewStatus.add, pickedDate: initialDate);
+      changeState(viewStatus: ViewStatus.success, pickedDate: initialDate);
     });
   }
 

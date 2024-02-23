@@ -14,7 +14,6 @@ class MainView extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<MainViewModel, MainViewModelStates>(builder: (context, state) {
       return Scaffold(
-        extendBody: true,
         bottomNavigationBar: BottomNavigationBar(
           currentIndex: state.index,
           onTap: (index) {
