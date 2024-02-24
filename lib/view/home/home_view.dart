@@ -18,9 +18,9 @@ class HomeView extends StatelessWidget {
         listener: (context, state) {},
         builder: (context, state) {
           return state.viewStatus == ViewStatus.success
-              ? ToDoScaffold(
-                  pageName: PageUtils.getPage(state.pages ?? Pages.todo_view),
-                  child: const ToDosView(),
+              ? const ToDoScaffold(
+                  //pageName: PageUtils.getPage(state.pages ?? Pages.todo_view),
+                  child: ToDosView(),
                 )
               : const CircularProgressIndicator();
         });

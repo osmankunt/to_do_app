@@ -30,15 +30,17 @@ class ToDoScaffold extends StatelessWidget {
           ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          showDialog(
-            context: context,
-            builder: (context) => ToDoAlertDialog(),
-          );
-        },
-        child: const Icon(Icons.add),
-      ),
+      floatingActionButton: pageName!.isEmpty || pageName == null
+          ? const SizedBox()
+          : FloatingActionButton(
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  builder: (context) => ToDoAlertDialog(),
+                );
+              },
+              child: const Icon(Icons.add),
+            ),
     );
   }
 }
