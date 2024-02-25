@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:to_do_app/view/todos/todos_view_model.dart';
 import 'package:to_do_app/widgets/todo_alert_dialog.dart';
-import '../view/todos/todos_view.dart';
 
 class ToDoScaffold extends StatelessWidget {
   const ToDoScaffold({this.pageName, required this.child, Key? key}) : super(key: key);
@@ -30,7 +29,7 @@ class ToDoScaffold extends StatelessWidget {
           ),
         ),
       ),
-      floatingActionButton: pageName!.isEmpty || pageName == null
+      floatingActionButton: pageName == null
           ? const SizedBox()
           : FloatingActionButton(
               onPressed: () {
