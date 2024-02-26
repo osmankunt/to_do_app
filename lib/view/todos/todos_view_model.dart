@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:to_do_app/constant/constants.dart';
 import 'package:to_do_app/enum/states.dart';
 import 'package:to_do_app/model/todo_model.dart';
@@ -8,7 +8,9 @@ import 'package:to_do_app/model/todo_model.dart';
 import 'todos_states.dart';
 
 class ToDoViewModel extends Cubit<ToDoStates> {
-  ToDoViewModel() : super(ToDoStates());
+  ToDoViewModel() : super(ToDoStates()) {
+    getHiveBox();
+  }
 
   static ToDoViewModel get(context) => BlocProvider.of(context);
   DateTime initialDate = DateTime.now();

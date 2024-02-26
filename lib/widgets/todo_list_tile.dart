@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:to_do_app/model/todo_model.dart';
-import 'package:to_do_app/view/home/home_view_model.dart';
-import 'package:to_do_app/view/home/home_states.dart';
+import 'package:to_do_app/view/todos/todos_states.dart';
+import 'package:to_do_app/view/todos/todos_view_model.dart';
 import 'package:to_do_app/widgets/todo_alert_dialog.dart';
 
 class ToDoListTile extends StatelessWidget {
@@ -19,9 +19,9 @@ class ToDoListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var cubit = HomeViewModel.get(context);
+    var cubit = ToDoViewModel.get(context);
     return ListTile(
-      title: BlocSelector<HomeViewModel, HomeViewModelStates, String>(
+      title: BlocSelector<ToDoViewModel, ToDoStates, String>(
           selector: (state) => toDoModel.title,
           builder: (context, state) {
             return Row(

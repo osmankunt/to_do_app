@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:to_do_app/constant/constants.dart';
 import 'package:to_do_app/enum/states.dart';
 import 'package:to_do_app/model/todo_model.dart';
-import 'package:to_do_app/view/home/home_view_model.dart';
 import 'package:to_do_app/view/todos/todos_view_model.dart';
 import 'package:to_do_app/widgets/todo_list_tile.dart';
 import 'package:to_do_app/widgets/todo_scaffold.dart';
@@ -15,7 +14,7 @@ class ToDosView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ToDoViewModel, ToDoStates>(builder: (context, state) {
-      var cubit = HomeViewModel.get(context);
+      var cubit = ToDoViewModel.get(context);
       List<ToDoModel>? todosList = [];
       for (var item in cubit.toDoList!) {
         if (!item.isArchived && !item.isDone) {
@@ -39,7 +38,7 @@ class ToDosView extends StatelessWidget {
                               hasUpdateButton: true,
                             );
                           },
-                          itemCount: todosList.length,
+                          itemCount: state.length,
                           shrinkWrap: true,
                         );
                       })))
