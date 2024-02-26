@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:to_do_app/constant/constants.dart';
+import 'package:to_do_app/enum/states.dart';
 import 'package:to_do_app/model/todo_model.dart';
-import '../../constant/constants.dart';
-import '../../enum/states.dart';
-import '../../widgets/todo_list_tile.dart';
-import '../../widgets/todo_scaffold.dart';
+import 'package:to_do_app/widgets/todo_list_tile.dart';
+import 'package:to_do_app/widgets/todo_scaffold.dart';
 import 'done_states.dart';
 import 'done_view_model.dart';
 

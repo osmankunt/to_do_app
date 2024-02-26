@@ -1,26 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:to_do_app/constant/constants.dart';
 import 'package:to_do_app/model/todo_model.dart';
+import 'package:to_do_app/view/todos/todos_states.dart';
+import 'package:to_do_app/view/todos/todos_view_model.dart';
 
-import '../constant/constants.dart';
-import '../view/home/home_view_model.dart';
-import '../view/home/home_states.dart';
-
-class ToDoAlertDialog extends StatelessWidget {
+class ToDoAlertDialog extends StatefulWidget {
   ToDoAlertDialog({this.toDoModel, Key? key}) : super(key: key);
 
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final ToDoModel? toDoModel;
+
+  TextEditingController? titleController;
+  TextEditingController? todoController;
+
+  @override
+  State<ToDoAlertDialog> createState() => _ToDoAlertDialogState();
+}
+
+class _ToDoAlertDialogState extends State<ToDoAlertDialog> {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
-    final TextEditingController titleController = TextEditingController(text: toDoModel?.title ?? "");
-    final TextEditingController todoController = TextEditingController(text: toDoModel?.toDo ?? "");
-    var cubit = HomeViewModel.get(context);
+    widget.titleController = TextEditingController(text: widget.toDoModel?.title ?? "");
+    widget.todoController = TextEditingController(text: widget.toDoModel?.toDo ?? "");
+    var cubit = ToDoViewModel.get(context);
     return AlertDialog(
-      title: toDoModel == null ? Text(Constants.newTodoText) : Text(Constants.updateTodoText),
-      content: BlocBuilder<HomeViewModel, HomeViewModelStates>(builder: (context, state) {
+      title: widget.toDoModel == null ? Text(Constants.newTodoText) : Text(Constants.updateTodoText),
+      content: BlocBuilder<ToDoViewModel, ToDoStates>(builder: (context, state) {
         return Form(
           key: _formKey,
           child: SizedBox(
@@ -28,8 +36,8 @@ class ToDoAlertDialog extends StatelessWidget {
             child: Column(
               children: [
                 TextFormField(
-                  controller: titleController,
-                  enabled: toDoModel == null ? true : false,
+                  controller: widget.titleController,
+                  enabled: widget.toDoModel == null ? true : false,
                   decoration: InputDecoration(
                     hintText: Constants.titleText,
                     labelText: Constants.titleText,
@@ -49,7 +57,7 @@ class ToDoAlertDialog extends StatelessWidget {
                   height: 10,
                 ),
                 TextFormField(
-                  controller: todoController,
+                  controller: widget.todoController,
                   minLines: 1,
                   maxLines: 3,
                   decoration: InputDecoration(
@@ -70,17 +78,17 @@ class ToDoAlertDialog extends StatelessWidget {
                 const SizedBox(
                   height: 10,
                 ),
-                BlocSelector<HomeViewModel, HomeViewModelStates, DateTime>(
+                BlocSelector<ToDoViewModel, ToDoStates, DateTime>(
                     selector: (state) => state.pickedDate ?? DateTime.now(),
                     builder: (context, state) {
                       return ElevatedButton.icon(
                         onPressed: () {
-                          context.read<HomeViewModel>().datePicker(context);
+                          context.read<ToDoViewModel>().datePicker(context);
                           FocusManager.instance.primaryFocus?.unfocus();
                         },
-                        label: context.read<HomeViewModel>().initialDate != DateTime.now()
+                        label: context.read<ToDoViewModel>().initialDate != DateTime.now()
                             ? Text(
-                                DateFormat.yMMMEd().format(context.read<HomeViewModel>().initialDate),
+                                DateFormat.yMMMEd().format(context.read<ToDoViewModel>().initialDate),
                               )
                             : Text(
                                 DateFormat.yMMMEd().format(
@@ -105,27 +113,27 @@ class ToDoAlertDialog extends StatelessWidget {
                     ElevatedButton(
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
-                          toDoModel == null
+                          widget.toDoModel == null
                               ? cubit.submitToDo(ToDoModel(
-                                  title: titleController.text,
-                                  toDo: todoController.text,
-                                  date: context.read<HomeViewModel>().initialDate,
+                                  title: widget.titleController?.text ?? "",
+                                  toDo: widget.todoController?.text ?? "",
+                                  date: context.read<ToDoViewModel>().initialDate,
                                   isDone: false,
                                   isArchived: false))
                               : cubit.updateToDo(
                                   ToDoModel(
-                                      title: toDoModel!.title.isEmpty ? "" : toDoModel!.title,
-                                      toDo: toDoModel!.toDo.isEmpty ? "" : todoController.text,
-                                      date: toDoModel!.date.toString().isEmpty
+                                      title: widget.toDoModel!.title.isEmpty ? "" : widget.toDoModel!.title,
+                                      toDo: widget.toDoModel!.toDo.isEmpty ? "" : widget.todoController?.text ?? "",
+                                      date: widget.toDoModel!.date.toString().isEmpty
                                           ? DateTime.now()
-                                          : context.read<HomeViewModel>().initialDate,
-                                      isDone: toDoModel!.isDone ? false : toDoModel!.isDone,
-                                      isArchived: toDoModel!.isArchived ? false : toDoModel!.isArchived),
+                                          : context.read<ToDoViewModel>().initialDate,
+                                      isDone: widget.toDoModel!.isDone ? false : widget.toDoModel!.isDone,
+                                      isArchived: widget.toDoModel!.isArchived ? false : widget.toDoModel!.isArchived),
                                 );
                           Navigator.of(context).pop();
                         }
                       },
-                      child: toDoModel == null ? Text(Constants.submitButtonText) : Text(Constants.updateButtonText),
+                      child: widget.toDoModel == null ? Text(Constants.submitButtonText) : Text(Constants.updateButtonText),
                     ),
                   ],
                 ),
@@ -135,5 +143,12 @@ class ToDoAlertDialog extends StatelessWidget {
         );
       }),
     );
+  }
+
+  @override
+  void dispose() {
+    widget.titleController?.dispose();
+    widget.todoController?.dispose();
+    super.dispose();
   }
 }

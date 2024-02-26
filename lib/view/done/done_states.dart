@@ -1,7 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:to_do_app/enum/states.dart';
-
-import '../../model/todo_model.dart';
+import 'package:to_do_app/model/todo_model.dart';
 
 class DoneStates extends Equatable {
   DoneStates({this.toDoList, this.viewStatus = ViewStatus.initial});

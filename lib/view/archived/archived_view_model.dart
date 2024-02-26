@@ -1,9 +1,8 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive/hive.dart';
-
-import '../../constant/constants.dart';
-import '../../enum/states.dart';
-import '../../model/todo_model.dart';
+import 'package:to_do_app/constant/constants.dart';
+import 'package:to_do_app/enum/states.dart';
+import 'package:to_do_app/model/todo_model.dart';
 import 'archived_states.dart';
 
 class ArchivedViewModel extends Cubit<ArchivedStates> {
