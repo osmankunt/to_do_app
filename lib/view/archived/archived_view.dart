@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:to_do_app/constant/constants.dart';
+import 'package:to_do_app/enum/pages.dart';
 import 'package:to_do_app/enum/states.dart';
 import 'package:to_do_app/model/todo_model.dart';
 import 'package:to_do_app/widgets/todo_list_tile.dart';
@@ -34,7 +35,7 @@ class ArchivedView extends StatelessWidget {
                     itemBuilder: (context, index) {
                       return ToDoListTile(
                         toDoModel: todosList[index],
-                        hasUpdateButton: false,
+                        page: Pages.archived_view,
                       );
                     },
                     itemCount: todosList.length,

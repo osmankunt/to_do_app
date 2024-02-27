@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:to_do_app/constant/constants.dart';
+import 'package:to_do_app/enum/pages.dart';
 import 'package:to_do_app/enum/states.dart';
 import 'package:to_do_app/model/todo_model.dart';
 import 'package:to_do_app/view/todos/todos_view_model.dart';
@@ -34,7 +35,7 @@ class ToDosView extends StatelessWidget {
                           itemBuilder: (context, index) {
                             return ToDoListTile(
                               toDoModel: state[index],
-                              hasUpdateButton: true,
+                              page: Pages.todo_view,
                             );
                           },
                           itemCount: state.length,

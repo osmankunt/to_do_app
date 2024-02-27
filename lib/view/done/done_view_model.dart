@@ -7,20 +7,32 @@ import 'done_states.dart';
 
 class DoneViewModel extends Cubit<DoneStates> {
   DoneViewModel() : super(DoneStates()) {
-    getHiveBox();
+    getFilterList();
   }
 
-  static DoneViewModel get(context) => BlocProvider.of(context);
-  List<ToDoModel>? toDoList = [];
+  void getFilterList() async {
+    emit(state.copyWith(viewStatus: ViewStatus.loading));
+    await getHiveBox();
+    filterList(toDoList);
+  }
 
-  // change state
-  changeState({List<ToDoModel>? toDoList, ViewStatus? viewStatus}) {
-    emit(state.copyWith(toDoList: toDoList, viewStatus: viewStatus));
+  List<ToDoModel>? toDoList = [];
+  List<ToDoModel>? filteredList = [];
+
+  void filterList(List<ToDoModel>? toDoList) {
+    if (toDoList != null) {
+      for (var item in toDoList) {
+        if (item.isDone) {
+          filteredList?.add(item);
+        }
+      }
+    }
+    emit(state.copyWith(doneList: filteredList, viewStatus: ViewStatus.success));
   }
 
   // get hive box
   getHiveBox() async {
-    changeState(viewStatus: ViewStatus.loading);
+    emit(state.copyWith(viewStatus: ViewStatus.loading));
     var box = await Hive.openBox<ToDoModel>(Constants.toDoBox);
 
     // Empty the HiveBox
@@ -31,6 +43,6 @@ class DoneViewModel extends Cubit<DoneStates> {
     for (var key in keys) {
       toDoList!.add(box.get(key)!);
     }
-    changeState(toDoList: toDoList, viewStatus: ViewStatus.success);
+    emit(state.copyWith(doneList: toDoList, viewStatus: ViewStatus.success));
   }
 }

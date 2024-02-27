@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:to_do_app/enum/pages.dart';
 import 'package:to_do_app/model/todo_model.dart';
 import 'package:to_do_app/view/todos/todos_states.dart';
 import 'package:to_do_app/view/todos/todos_view_model.dart';
@@ -10,12 +11,12 @@ class ToDoListTile extends StatelessWidget {
   ToDoListTile({
     required this.toDoModel,
     this.toDo,
-    this.hasUpdateButton = false,
+    this.page,
     Key? key,
   }) : super(key: key);
   final ToDoModel toDoModel;
   final String? toDo;
-  bool hasUpdateButton;
+  Pages? page;
 
   @override
   Widget build(BuildContext context) {
@@ -36,20 +37,22 @@ class ToDoListTile extends StatelessWidget {
                     color: Colors.red,
                   ),
                 ),
-                IconButton(
-                  onPressed: () {
-                    context.read<ToDoViewModel>().updateToDo(
-                          ToDoModel(
-                              title: toDoModel.title,
-                              toDo: toDoModel.toDo,
-                              date: toDoModel.date,
-                              isDone: true,
-                              isArchived: false),
-                        );
-                  },
-                  icon: const Icon(Icons.done),
-                ),
-                hasUpdateButton
+                page == Pages.todo_view
+                    ? IconButton(
+                        onPressed: () {
+                          context.read<ToDoViewModel>().updateToDo(
+                                ToDoModel(
+                                    title: toDoModel.title,
+                                    toDo: toDoModel.toDo,
+                                    date: toDoModel.date,
+                                    isDone: true,
+                                    isArchived: false),
+                              );
+                        },
+                        icon: const Icon(Icons.done),
+                      )
+                    : const SizedBox(),
+                page == Pages.todo_view
                     ? IconButton(
                         onPressed: () {
                           showDialog(context: context, builder: (context) => ToDoAlertDialog(toDoModel: toDoModel));
@@ -57,22 +60,24 @@ class ToDoListTile extends StatelessWidget {
                         icon: const Icon(Icons.update),
                       )
                     : const SizedBox(),
-                IconButton(
-                  onPressed: () {
-                    context.read<ToDoViewModel>().updateToDo(
-                          ToDoModel(
-                              title: toDoModel.title,
-                              toDo: toDoModel.toDo,
-                              date: toDoModel.date,
-                              isDone: false,
-                              isArchived: true),
-                        );
-                  },
-                  icon: const Icon(
-                    Icons.archive,
-                    color: Colors.green,
-                  ),
-                ),
+                page != Pages.archived_view
+                    ? IconButton(
+                        onPressed: () {
+                          context.read<ToDoViewModel>().updateToDo(
+                                ToDoModel(
+                                    title: toDoModel.title,
+                                    toDo: toDoModel.toDo,
+                                    date: toDoModel.date,
+                                    isDone: false,
+                                    isArchived: true),
+                              );
+                        },
+                        icon: const Icon(
+                          Icons.archive,
+                          color: Colors.green,
+                        ),
+                      )
+                    : const SizedBox(),
               ],
             );
           }),
