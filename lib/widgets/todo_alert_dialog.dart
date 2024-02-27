@@ -25,7 +25,6 @@ class _ToDoAlertDialogState extends State<ToDoAlertDialog> {
   Widget build(BuildContext context) {
     widget.titleController = TextEditingController(text: widget.toDoModel?.title ?? "");
     widget.todoController = TextEditingController(text: widget.toDoModel?.toDo ?? "");
-    var cubit = ToDoViewModel.get(context);
     return AlertDialog(
       title: widget.toDoModel == null ? Text(Constants.newTodoText) : Text(Constants.updateTodoText),
       content: BlocBuilder<ToDoViewModel, ToDoStates>(builder: (context, state) {
@@ -114,22 +113,22 @@ class _ToDoAlertDialogState extends State<ToDoAlertDialog> {
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
                           widget.toDoModel == null
-                              ? cubit.submitToDo(ToDoModel(
+                              ? context.read<ToDoViewModel>().submitToDo(ToDoModel(
                                   title: widget.titleController?.text ?? "",
                                   toDo: widget.todoController?.text ?? "",
                                   date: context.read<ToDoViewModel>().initialDate,
                                   isDone: false,
                                   isArchived: false))
-                              : cubit.updateToDo(
-                                  ToDoModel(
-                                      title: widget.toDoModel!.title.isEmpty ? "" : widget.toDoModel!.title,
-                                      toDo: widget.toDoModel!.toDo.isEmpty ? "" : widget.todoController?.text ?? "",
-                                      date: widget.toDoModel!.date.toString().isEmpty
-                                          ? DateTime.now()
-                                          : context.read<ToDoViewModel>().initialDate,
-                                      isDone: widget.toDoModel!.isDone ? false : widget.toDoModel!.isDone,
-                                      isArchived: widget.toDoModel!.isArchived ? false : widget.toDoModel!.isArchived),
-                                );
+                              : context.read<ToDoViewModel>().updateToDo(
+                                    ToDoModel(
+                                        title: widget.toDoModel!.title.isEmpty ? "" : widget.toDoModel!.title,
+                                        toDo: widget.toDoModel!.toDo.isEmpty ? "" : widget.todoController?.text ?? "",
+                                        date: widget.toDoModel!.date.toString().isEmpty
+                                            ? DateTime.now()
+                                            : context.read<ToDoViewModel>().initialDate,
+                                        isDone: widget.toDoModel!.isDone ? false : widget.toDoModel!.isDone,
+                                        isArchived: widget.toDoModel!.isArchived ? false : widget.toDoModel!.isArchived),
+                                  );
                           Navigator.of(context).pop();
                         }
                       },

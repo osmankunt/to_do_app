@@ -4,7 +4,6 @@ import 'package:to_do_app/enum/states.dart';
 import 'package:to_do_app/view/home/home_view_model.dart';
 import 'package:to_do_app/view/home/home_states.dart';
 import 'package:to_do_app/view/todos/todos_view.dart';
-import 'package:to_do_app/widgets/todo_scaffold.dart';
 
 class HomeView extends StatelessWidget {
   HomeView({Key? key}) : super(key: key);
@@ -14,11 +13,7 @@ class HomeView extends StatelessWidget {
     return BlocConsumer<HomeViewModel, HomeViewModelStates>(
         listener: (context, state) {},
         builder: (context, state) {
-          return state.viewStatus == ViewStatus.success
-              ? const ToDoScaffold(
-                  child: ToDosView(),
-                )
-              : const CircularProgressIndicator();
+          return state.viewStatus == ViewStatus.success ? const ToDosView() : const CircularProgressIndicator();
         });
   }
 }
