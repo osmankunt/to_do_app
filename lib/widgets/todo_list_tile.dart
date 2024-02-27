@@ -19,18 +19,17 @@ class ToDoListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var cubit = ToDoViewModel.get(context);
     return ListTile(
       title: BlocSelector<ToDoViewModel, ToDoStates, String>(
           selector: (state) => toDoModel.title,
           builder: (context, state) {
             return Row(
               children: [
-                Text(toDoModel.title),
+                toDoModel.title.length < 18 ? Text(toDoModel.title) : Text("${toDoModel.title.substring(0, 17)}.."),
                 const Spacer(),
                 IconButton(
                   onPressed: () {
-                    cubit.deleteToDo(toDoModel);
+                    context.read<ToDoViewModel>().deleteToDo(toDoModel);
                   },
                   icon: const Icon(
                     Icons.delete,
@@ -39,10 +38,14 @@ class ToDoListTile extends StatelessWidget {
                 ),
                 IconButton(
                   onPressed: () {
-                    cubit.updateToDo(
-                      ToDoModel(
-                          title: toDoModel.title, toDo: toDoModel.toDo, date: toDoModel.date, isDone: true, isArchived: false),
-                    );
+                    context.read<ToDoViewModel>().updateToDo(
+                          ToDoModel(
+                              title: toDoModel.title,
+                              toDo: toDoModel.toDo,
+                              date: toDoModel.date,
+                              isDone: true,
+                              isArchived: false),
+                        );
                   },
                   icon: const Icon(Icons.done),
                 ),
@@ -56,10 +59,14 @@ class ToDoListTile extends StatelessWidget {
                     : const SizedBox(),
                 IconButton(
                   onPressed: () {
-                    cubit.updateToDo(
-                      ToDoModel(
-                          title: toDoModel.title, toDo: toDoModel.toDo, date: toDoModel.date, isDone: false, isArchived: true),
-                    );
+                    context.read<ToDoViewModel>().updateToDo(
+                          ToDoModel(
+                              title: toDoModel.title,
+                              toDo: toDoModel.toDo,
+                              date: toDoModel.date,
+                              isDone: false,
+                              isArchived: true),
+                        );
                   },
                   icon: const Icon(
                     Icons.archive,

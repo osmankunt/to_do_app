@@ -14,14 +14,13 @@ class ToDosView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ToDoViewModel, ToDoStates>(builder: (context, state) {
-      var cubit = ToDoViewModel.get(context);
       List<ToDoModel>? todosList = [];
-      for (var item in cubit.toDoList!) {
+      for (var item in state.toDoList!) {
         if (!item.isArchived && !item.isDone) {
           todosList.add(item);
         }
       }
-      return state.viewStatus == ViewStatus.initial || state.viewStatus == ViewStatus.success
+      return state.viewStatus == ViewStatus.success
           ? (todosList.isEmpty
               ? Center(
                   child: Text(Constants.emptyToDoList),
@@ -29,7 +28,7 @@ class ToDosView extends StatelessWidget {
               : ToDoScaffold(
                   pageName: Constants.toDoPage,
                   child: BlocSelector<ToDoViewModel, ToDoStates, List<ToDoModel>>(
-                      selector: (state) => state.toDoList ?? todosList,
+                      selector: (state) => todosList,
                       builder: (context, state) {
                         return ListView.builder(
                           itemBuilder: (context, index) {

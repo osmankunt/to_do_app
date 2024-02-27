@@ -10,6 +10,7 @@ import 'todos_states.dart';
 class ToDoViewModel extends Cubit<ToDoStates> {
   ToDoViewModel() : super(ToDoStates()) {
     getHiveBox();
+    changeState(viewStatus: ViewStatus.success, toDoList: toDoList);
   }
 
   static ToDoViewModel get(context) => BlocProvider.of(context);
