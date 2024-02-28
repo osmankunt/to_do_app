@@ -27,15 +27,14 @@ class DoneView extends StatelessWidget {
                   pageName: Constants.donePage,
                   child: BlocSelector<DoneViewModel, DoneStates, List<ToDoModel>>(
                       selector: (state) => state.doneList ?? todosList,
-                      builder: (context, state) {
+                      builder: (context, list) {
                         return ListView.builder(
                           itemBuilder: (context, index) {
                             return ToDoListTile(
-                              toDoModel: state[index],
-                              page: Pages.done_view,
+                              toDoModel: list[index],
                             );
                           },
-                          itemCount: state.length,
+                          itemCount: list.length,
                           shrinkWrap: true,
                         );
                       })));

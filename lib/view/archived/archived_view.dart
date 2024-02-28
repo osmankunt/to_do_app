@@ -35,7 +35,6 @@ class ArchivedView extends StatelessWidget {
                     itemBuilder: (context, index) {
                       return ToDoListTile(
                         toDoModel: todosList[index],
-                        page: Pages.archived_view,
                       );
                     },
                     itemCount: todosList.length,
