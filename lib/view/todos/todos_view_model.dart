@@ -49,7 +49,6 @@ class ToDoViewModel extends Cubit<ToDoStates> {
 
   // get hive box
   getHiveBox() async {
-    emit(state.copyWith(viewStatus: ViewStatus.loading));
     var box = await Hive.openBox<ToDoModel>(Constants.toDoBox);
 
     // Empty the HiveBox
@@ -60,14 +59,15 @@ class ToDoViewModel extends Cubit<ToDoStates> {
     for (var key in keys) {
       toDoList!.add(box.get(key)!);
     }
-    emit(state.copyWith(toDoList: toDoList, viewStatus: ViewStatus.success));
   }
 
   // add new to do to hive box
   submitToDo(ToDoModel toDoModel) async {
+    emit(state.copyWith(viewStatus: ViewStatus.loading));
     await Hive.openBox<ToDoModel>(Constants.toDoBox).then((todo) => todo.add(toDoModel)).then(
           (value) => getHiveBox(),
         );
+    emit(state.copyWith(toDoList: toDoList, viewStatus: ViewStatus.success));
   }
 
   // delete an item from hive box
