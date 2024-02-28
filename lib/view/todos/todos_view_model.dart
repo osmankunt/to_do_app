@@ -36,7 +36,7 @@ class ToDoViewModel extends Cubit<ToDoStates> {
   getFilteredList() async {
     toDoList?.clear();
     await getHiveBox();
-    emit(state.copyWith(viewStatus: ViewStatus.loading));
+    emit(state.copyWith(toDoList: toDoList, viewStatus: ViewStatus.loading));
     if (toDoList != null) {
       filteredList?.clear();
       for (var item in toDoList!) {

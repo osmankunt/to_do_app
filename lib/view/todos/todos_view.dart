@@ -21,9 +21,13 @@ class ToDosView extends StatelessWidget {
                 )
               : ToDoScaffold(
                   pageName: Constants.toDoPage,
-                  child: ToDoList(
-                    todosList: state.toDoList,
-                  ),
+                  child: BlocSelector<ToDoViewModel, ToDoStates, List<ToDoModel>>(
+                      selector: (state) => state.toDoList ?? [],
+                      builder: (context, list) {
+                        return ToDoList(
+                          todosList: list,
+                        );
+                      }),
                 ))
           : const CircularProgressIndicator();
     });
