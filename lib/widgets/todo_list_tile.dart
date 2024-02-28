@@ -30,33 +30,47 @@ class ToDoListTile extends StatelessWidget {
               color: Colors.red,
             ),
           ),
-          IconButton(
-            onPressed: () {
-              context.read<ToDoViewModel>().updateToDo(
-                    ToDoModel(
-                        title: toDoModel.title, toDo: toDoModel.toDo, date: toDoModel.date, isDone: true, isArchived: false),
-                  );
-            },
-            icon: const Icon(Icons.done),
-          ),
-          IconButton(
-            onPressed: () {
-              showDialog(context: context, builder: (context) => ToDoAlertDialog(toDoModel: toDoModel));
-            },
-            icon: const Icon(Icons.update),
-          ),
-          IconButton(
-            onPressed: () {
-              context.read<ToDoViewModel>().updateToDo(
-                    ToDoModel(
-                        title: toDoModel.title, toDo: toDoModel.toDo, date: toDoModel.date, isDone: false, isArchived: true),
-                  );
-            },
-            icon: const Icon(
-              Icons.archive,
-              color: Colors.green,
-            ),
-          ),
+          toDoModel.isDone == false && toDoModel.isArchived == false
+              ? IconButton(
+                  onPressed: () {
+                    context.read<ToDoViewModel>().updateToDo(
+                          ToDoModel(
+                              title: toDoModel.title,
+                              toDo: toDoModel.toDo,
+                              date: toDoModel.date,
+                              isDone: true,
+                              isArchived: false),
+                        );
+                  },
+                  icon: const Icon(Icons.done),
+                )
+              : const SizedBox.shrink(),
+          toDoModel.isDone == false && toDoModel.isArchived == false
+              ? IconButton(
+                  onPressed: () {
+                    showDialog(context: context, builder: (context) => ToDoAlertDialog(toDoModel: toDoModel));
+                  },
+                  icon: const Icon(Icons.update),
+                )
+              : const SizedBox.shrink(),
+          toDoModel.isArchived == false
+              ? IconButton(
+                  onPressed: () {
+                    context.read<ToDoViewModel>().updateToDo(
+                          ToDoModel(
+                              title: toDoModel.title,
+                              toDo: toDoModel.toDo,
+                              date: toDoModel.date,
+                              isDone: false,
+                              isArchived: true),
+                        );
+                  },
+                  icon: const Icon(
+                    Icons.archive,
+                    color: Colors.green,
+                  ),
+                )
+              : const SizedBox.shrink(),
         ],
       ),
       subtitle: Padding(
