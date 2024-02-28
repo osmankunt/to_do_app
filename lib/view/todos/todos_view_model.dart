@@ -34,10 +34,11 @@ class ToDoViewModel extends Cubit<ToDoStates> {
   }
 
   getFilteredList() async {
+    toDoList?.clear();
     await getHiveBox();
-    filteredList?.clear();
     emit(state.copyWith(viewStatus: ViewStatus.loading));
     if (toDoList != null) {
+      filteredList?.clear();
       for (var item in toDoList!) {
         if (!item.isArchived && !item.isDone) {
           filteredList?.add(item);
@@ -49,6 +50,7 @@ class ToDoViewModel extends Cubit<ToDoStates> {
 
   // get hive box
   getHiveBox() async {
+    emit(state.copyWith(viewStatus: ViewStatus.loading));
     var box = await Hive.openBox<ToDoModel>(Constants.toDoBox);
 
     // Empty the HiveBox
@@ -59,6 +61,7 @@ class ToDoViewModel extends Cubit<ToDoStates> {
     for (var key in keys) {
       toDoList!.add(box.get(key)!);
     }
+    emit(state.copyWith(toDoList: toDoList, viewStatus: ViewStatus.success));
   }
 
   // add new to do to hive box
@@ -67,13 +70,11 @@ class ToDoViewModel extends Cubit<ToDoStates> {
     await Hive.openBox<ToDoModel>(Constants.toDoBox).then((todo) => todo.add(toDoModel)).then(
           (value) => getHiveBox(),
         );
-    emit(state.copyWith(toDoList: toDoList, viewStatus: ViewStatus.success));
+    getFilteredList();
   }
 
   // delete an item from hive box
   deleteToDo(ToDoModel toDoModel) async {
-    emit(state.copyWith(viewStatus: ViewStatus.loading));
-
     final box = Hive.box<ToDoModel>(Constants.toDoBox);
     final Map<dynamic, ToDoModel> toDoMap = box.toMap();
     dynamic desiredKey;
@@ -84,13 +85,11 @@ class ToDoViewModel extends Cubit<ToDoStates> {
       }
     });
     box.delete(desiredKey);
-    await getHiveBox();
-    emit(state.copyWith(toDoList: toDoList, viewStatus: ViewStatus.success));
+    getFilteredList();
   }
 
   // update item on hive box
   updateToDo(ToDoModel toDoModel) async {
-    emit(state.copyWith(viewStatus: ViewStatus.loading));
     final box = Hive.box<ToDoModel>(Constants.toDoBox);
 
     final Map<dynamic, ToDoModel> toDoMap = box.toMap();
@@ -101,7 +100,6 @@ class ToDoViewModel extends Cubit<ToDoStates> {
       }
     });
     box.put(desiredKey, toDoModel);
-    await getHiveBox();
-    emit(state.copyWith(toDoList: toDoList, viewStatus: ViewStatus.success));
+    getFilteredList();
   }
 }
