@@ -16,8 +16,8 @@ class ArchivedView extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<ArchivedViewModel, ArchivedStates>(builder: (context, state) {
       List<ToDoModel>? todosList = [];
-      if (state.toDoList != null) {
-        for (var item in state.toDoList!) {
+      if (state.archivedList != null) {
+        for (var item in state.archivedList!) {
           if (item.isArchived) {
             todosList.add(item);
           }

@@ -3,18 +3,18 @@ import 'package:to_do_app/enum/states.dart';
 import 'package:to_do_app/model/todo_model.dart';
 
 class ArchivedStates extends Equatable {
-  ArchivedStates({this.toDoList, this.viewStatus = ViewStatus.initial});
+  ArchivedStates({this.archivedList, this.viewStatus = ViewStatus.initial});
 
-  List<ToDoModel>? toDoList;
+  List<ToDoModel>? archivedList;
   final ViewStatus viewStatus;
 
   @override
-  List<Object?> get props => [toDoList, viewStatus];
+  List<Object?> get props => [archivedList, viewStatus];
 
   ArchivedStates copyWith({
-    List<ToDoModel>? toDoList,
+    List<ToDoModel>? archivedList,
     ViewStatus? viewStatus,
   }) {
-    return ArchivedStates(toDoList: toDoList ?? this.toDoList, viewStatus: viewStatus ?? this.viewStatus);
+    return ArchivedStates(archivedList: archivedList ?? this.archivedList, viewStatus: viewStatus ?? this.viewStatus);
   }
 }

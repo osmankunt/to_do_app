@@ -7,21 +7,16 @@ import 'done_states.dart';
 
 class DoneViewModel extends Cubit<DoneStates> {
   DoneViewModel() : super(DoneStates()) {
-    getFilterList();
+    getFilteredList();
   }
 
-  void getFilterList() async {
-    emit(state.copyWith(viewStatus: ViewStatus.loading));
+  getFilteredList() async {
+    toDoList?.clear();
     await getHiveBox();
-    filterList(toDoList);
-  }
-
-  List<ToDoModel>? toDoList = [];
-  List<ToDoModel>? filteredList = [];
-
-  void filterList(List<ToDoModel>? toDoList) {
+    emit(state.copyWith(doneList: toDoList, viewStatus: ViewStatus.loading));
     if (toDoList != null) {
-      for (var item in toDoList) {
+      filteredList?.clear();
+      for (var item in toDoList!) {
         if (item.isDone) {
           filteredList?.add(item);
         }
@@ -30,13 +25,13 @@ class DoneViewModel extends Cubit<DoneStates> {
     emit(state.copyWith(doneList: filteredList, viewStatus: ViewStatus.success));
   }
 
+  List<ToDoModel>? toDoList = [];
+  List<ToDoModel>? filteredList = [];
+
   // get hive box
   getHiveBox() async {
     emit(state.copyWith(viewStatus: ViewStatus.loading));
     var box = await Hive.openBox<ToDoModel>(Constants.toDoBox);
-
-    // Empty the HiveBox
-    //box.deleteFromDisk();
     var keys = [];
     keys = box.keys.cast<int>().toList();
     toDoList = [];
@@ -44,5 +39,34 @@ class DoneViewModel extends Cubit<DoneStates> {
       toDoList!.add(box.get(key)!);
     }
     emit(state.copyWith(doneList: toDoList, viewStatus: ViewStatus.success));
+  }
+
+  // update item on hive box
+  updateToDo(ToDoModel toDoModel) async {
+    final box = Hive.box<ToDoModel>(Constants.toDoBox);
+
+    final Map<dynamic, ToDoModel> toDoMap = box.toMap();
+    dynamic desiredKey;
+    toDoMap.forEach((key, value) {
+      if (value.title == toDoModel.title) {
+        desiredKey = key;
+      }
+    });
+    box.put(desiredKey, toDoModel);
+    getFilteredList();
+  }
+
+  deleteToDo(ToDoModel toDoModel) async {
+    final box = Hive.box<ToDoModel>(Constants.toDoBox);
+    final Map<dynamic, ToDoModel> toDoMap = box.toMap();
+    dynamic desiredKey;
+
+    toDoMap.forEach((key, value) {
+      if (value == toDoModel) {
+        desiredKey = key;
+      }
+    });
+    box.delete(desiredKey);
+    getFilteredList();
   }
 }
