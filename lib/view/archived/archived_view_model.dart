@@ -23,7 +23,7 @@ class ArchivedViewModel extends Cubit<ArchivedStates> {
     if (toDoList != null) {
       filteredList?.clear();
       for (var item in toDoList!) {
-        if (item.isDone) {
+        if (item.isArchived) {
           filteredList?.add(item);
         }
       }

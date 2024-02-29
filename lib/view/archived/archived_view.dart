@@ -15,17 +15,10 @@ class ArchivedView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ArchivedViewModel, ArchivedStates>(builder: (context, state) {
-      List<ToDoModel>? todosList = [];
-      if (state.archivedList != null) {
-        for (var item in state.archivedList!) {
-          if (item.isArchived) {
-            todosList.add(item);
-          }
-        }
-      }
+      var list = state.archivedList ?? [];
       return state.viewStatus == ViewStatus.loading
           ? const CircularProgressIndicator()
-          : (todosList.isEmpty
+          : (state.archivedList == null
               ? Center(
                   child: Text(Constants.emptyArchiveList),
                 )
@@ -33,11 +26,9 @@ class ArchivedView extends StatelessWidget {
                   pageName: Constants.archivedPage,
                   child: ListView.builder(
                     itemBuilder: (context, index) {
-                      return ToDoListTile(
-                        toDoModel: todosList[index],
-                      );
+                      return ToDoListTile(toDoModel: list[index]);
                     },
-                    itemCount: todosList.length,
+                    itemCount: state.archivedList?.length ?? 0,
                     shrinkWrap: true,
                   ),
                 ));
