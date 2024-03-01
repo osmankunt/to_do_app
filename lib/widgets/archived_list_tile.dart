@@ -3,17 +3,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:to_do_app/model/todo_model.dart';
 import 'package:to_do_app/view/archived/archived_view_model.dart';
-import 'package:to_do_app/view/todos/todos_view_model.dart';
-import 'package:to_do_app/widgets/todo_alert_dialog.dart';
 
 class ArchivedListTile extends StatelessWidget {
   ArchivedListTile({
     required this.toDoModel,
-    this.toDo,
     Key? key,
   }) : super(key: key);
   final ToDoModel toDoModel;
-  final String? toDo;
 
   @override
   Widget build(BuildContext context) {

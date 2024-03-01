@@ -10,8 +10,6 @@ class ArchivedViewModel extends Cubit<ArchivedStates> {
     getFilteredList();
   }
 
-  static ArchivedViewModel get(context) => BlocProvider.of(context);
-
   List<ToDoModel>? toDoList = [];
   List<ToDoModel>? filteredList = [];
 

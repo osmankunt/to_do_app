@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:to_do_app/constant/constants.dart';
-import 'package:to_do_app/enum/pages.dart';
 import 'package:to_do_app/enum/states.dart';
 import 'package:to_do_app/model/todo_model.dart';
 import 'package:to_do_app/widgets/todo_list.dart';
@@ -15,8 +14,6 @@ class DoneView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<DoneViewModel, DoneStates>(builder: (context, state) {
-      List<ToDoModel>? todosList = [];
-
       return state.viewStatus == ViewStatus.loading
           ? const CircularProgressIndicator()
           : (state.doneList == null
