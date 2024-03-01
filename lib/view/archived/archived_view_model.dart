@@ -53,6 +53,6 @@ class ArchivedViewModel extends Cubit<ArchivedStates> {
       }
     });
     box.delete(desiredKey);
-    getFilteredList();
+    await getFilteredList();
   }
 }

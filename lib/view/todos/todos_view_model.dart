@@ -70,7 +70,7 @@ class ToDoViewModel extends Cubit<ToDoStates> {
     await Hive.openBox<ToDoModel>(Constants.toDoBox).then((todo) => todo.add(toDoModel)).then(
           (value) => getHiveBox(),
         );
-    getFilteredList();
+    await getFilteredList();
   }
 
   // delete an item from hive box
@@ -85,7 +85,7 @@ class ToDoViewModel extends Cubit<ToDoStates> {
       }
     });
     box.delete(desiredKey);
-    getFilteredList();
+    await getFilteredList();
   }
 
   // update item on hive box
@@ -100,6 +100,6 @@ class ToDoViewModel extends Cubit<ToDoStates> {
       }
     });
     box.put(desiredKey, toDoModel);
-    getFilteredList();
+    await getFilteredList();
   }
 }

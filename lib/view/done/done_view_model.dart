@@ -53,7 +53,7 @@ class DoneViewModel extends Cubit<DoneStates> {
       }
     });
     box.put(desiredKey, toDoModel);
-    getFilteredList();
+    await getFilteredList();
   }
 
   deleteToDo(ToDoModel toDoModel) async {
@@ -67,6 +67,6 @@ class DoneViewModel extends Cubit<DoneStates> {
       }
     });
     box.delete(desiredKey);
-    getFilteredList();
+    await getFilteredList();
   }
 }
