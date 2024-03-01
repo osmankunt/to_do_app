@@ -30,6 +30,24 @@ class ToDoListTile extends StatelessWidget {
               color: Colors.red,
             ),
           ),
+          toDoModel.isDone || toDoModel.isArchived
+              ? IconButton(
+                  onPressed: () {
+                    context.read<ToDoViewModel>().updateToDo(
+                          ToDoModel(
+                              title: toDoModel.title,
+                              toDo: toDoModel.toDo,
+                              date: toDoModel.date,
+                              isDone: false,
+                              isArchived: false),
+                        );
+                  },
+                  icon: const Icon(
+                    Icons.arrow_back,
+                    color: Colors.indigo,
+                  ),
+                )
+              : const SizedBox.shrink(),
           toDoModel.isDone == false && toDoModel.isArchived == false
               ? IconButton(
                   onPressed: () {
