@@ -13,8 +13,6 @@ class HomeViewModel extends Cubit<HomeViewModelStates> {
     getHiveBox();
   }
 
-  static HomeViewModel get(context) => BlocProvider.of(context);
-
   int currentIndex = 0;
   static Index indexEnum = Index.none;
   DateTime initialDate = DateTime.now();
